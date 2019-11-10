@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person';
+import classes from './App.css';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
     state = {
@@ -47,38 +48,20 @@ class App extends Component {
 
         let person = null;
         if(this.state.showPerson){
-            person = (
-                <div >
-                    {this.state.person.map((person, index) => {
-                        return (
-                            <Person
-                            click={() => this.deletePersonHandler(index)}
-                            name={person.name}
-                            age={person.age}
-                            key={person.id}
-                            changed={(event) => {this.nameChangeHandler(event, person.id)}} />
-                        );
-                     })}
-                </div>
-            );
+            person =    <Persons
+                        persons={this.state.person}
+                        clicked={this.deletePersonHandler}
+                        changed={this.nameChangeHandler}/>
         }
 
-        let classes = [];
-        if(this.state.person.length <= 2){
-            classes.push('red');
-        }
-        if (this.state.person.length <= 1){
-            classes.push('bold');
-        }
+
 
 
         return (
-            <div className="App">
-                <h1>Hi i am a react app</h1>
-                <p className={classes.join(' ')}>This is really working!</p>
-                <button className="button"  alt={this.state.showPerson} onClick={this.togglePersonHandler}>
-                    Toggle Person
-                </button>
+            <div className={classes.App}>
+                <Cockpit showPerson={this.state.showPerson}
+                         persons={this.state.person}
+                         clicked={this.togglePersonHandler}/>
                 {person}
             </div>
         );
